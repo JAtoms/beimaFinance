@@ -32,6 +32,11 @@ class GlobalAssets {
   static const String masterLogo = 'assets/master_logo.svg';
   static const String cardLogo = 'assets/card_logo.svg';
   static const String avartar = 'assets/avartar.svg';
+  static const String bank = 'assets/bank.svg';
+  static const String card = 'assets/card.svg';
+  static const String security = 'assets/security.svg';
+  static const String support = 'assets/support.svg';
+  static const String wallet = 'assets/wallet.svg';
 
 
 

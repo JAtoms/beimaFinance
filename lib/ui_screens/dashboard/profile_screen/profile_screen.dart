@@ -25,66 +25,103 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return Stack(
         children: [
           Image.asset(GlobalAssets.backdrop),
-          Column(
-            children: [
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(
-                    top: SizeConfig.heightAdjusted(15),
-                    left: SizeConfig.heightAdjusted(5),
-                    right: SizeConfig.heightAdjusted(5)),
-                padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.heightAdjusted(10),
-                    vertical: SizeConfig.heightAdjusted(10)),
-                decoration: BoxDecoration(
-                    color: GlobalColors.inputField.withAlpha(120),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(children: [
-                  SvgPicture.asset(GlobalAssets.avartar),
-                  SizedBox(height: SizeConfig.heightAdjusted(5)),
-                  Text(
-                      '${eventState.profileModel!.data.user.firstName} ${eventState.profileModel!.data.user.lastName}',
-                      style: GlobalTextStyles.title(
-                          color: Colors.white, fontSize: 20)),
-                  Container(
-                    margin: EdgeInsets.only(top: SizeConfig.heightAdjusted(5)),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.heightAdjusted(2),
-                        vertical: SizeConfig.heightAdjusted(2)),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: GlobalColors.primary),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text('Edit Profile',
-                        style: GlobalTextStyles.regularText(
-                            color: Colors.white60)),
-                  )
-                ]),
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                    top: SizeConfig.heightAdjusted(5),
-                    left: SizeConfig.heightAdjusted(5),
-                    right: SizeConfig.heightAdjusted(5)),
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.heightAdjusted(2),
-                    vertical: SizeConfig.heightAdjusted(2)),
-                decoration: BoxDecoration(
-                    color: GlobalColors.inputField.withAlpha(190),
-                    border: Border.all(color: GlobalColors.primary),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(GlobalAssets.b),
-                    Text('Edit Profile',
-                        style: GlobalTextStyles.regularText(color: Colors.white60)),
-                  ],
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                      top: SizeConfig.heightAdjusted(15),
+                      left: SizeConfig.heightAdjusted(5),
+                      right: SizeConfig.heightAdjusted(5)),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.heightAdjusted(10),
+                      vertical: SizeConfig.heightAdjusted(10)),
+                  decoration: BoxDecoration(
+                      color: GlobalColors.inputField.withAlpha(170),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(children: [
+                    SvgPicture.asset(GlobalAssets.avartar),
+                    SizedBox(height: SizeConfig.heightAdjusted(5)),
+                    Text(
+                        '${eventState.profileModel!.data.user.firstName} ${eventState.profileModel!.data.user.lastName}',
+                        style: GlobalTextStyles.title(
+                            color: Colors.white, fontSize: 20)),
+                    Container(
+                      margin:
+                          EdgeInsets.only(top: SizeConfig.heightAdjusted(5)),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.heightAdjusted(2),
+                          vertical: SizeConfig.heightAdjusted(2)),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: GlobalColors.primary),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Text('Edit Profile',
+                          style: GlobalTextStyles.regularText(
+                              color: Colors.white60)),
+                    )
+                  ]),
                 ),
-              )
-            ],
+                ProfileWidget(
+                    image: GlobalAssets.bank,
+                    title: 'Bank Details',
+                    onTap: () {}),
+                ProfileWidget(
+                    image: GlobalAssets.bank,
+                    title: 'Card Details',
+                    onTap: () {}),
+                ProfileWidget(
+                    image: GlobalAssets.bank,
+                    title: 'Connect Wallet',
+                    onTap: () {}),
+                ProfileWidget(
+                    image: GlobalAssets.bank, title: 'Security', onTap: () {}),
+                ProfileWidget(
+                    image: GlobalAssets.bank, title: 'Support', onTap: () {}),
+                SizedBox(height: SizeConfig.heightAdjusted(5)),
+              ],
+            ),
           )
         ],
       );
     });
+  }
+}
+
+class ProfileWidget extends StatelessWidget {
+  const ProfileWidget(
+      {Key? key, required this.image, required this.title, required this.onTap})
+      : super(key: key);
+
+  final String image, title;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(
+            top: SizeConfig.heightAdjusted(5),
+            left: SizeConfig.heightAdjusted(5),
+            right: SizeConfig.heightAdjusted(5)),
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+            horizontal: SizeConfig.heightAdjusted(4),
+            vertical: SizeConfig.heightAdjusted(4)),
+        decoration: BoxDecoration(
+            color: GlobalColors.inputField.withAlpha(190),
+            border: Border.all(color: GlobalColors.primary.withAlpha(100)),
+            borderRadius: BorderRadius.circular(10)),
+        child: Row(
+          children: [
+            SvgPicture.asset(image),
+            SizedBox(width: SizeConfig.heightAdjusted(5)),
+            Text(title,
+                style: GlobalTextStyles.regularText(color: Colors.white60)),
+          ],
+        ),
+      ),
+    );
   }
 }
