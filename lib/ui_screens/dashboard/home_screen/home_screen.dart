@@ -48,16 +48,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Row(
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: buildCachedNetworkImage(
-                              image: 'https://images.unsplash.com/'
-                                  'photo-1578758803946-2c4f6738df87?ixlib=rb-'
-                                  '1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfH'
-                                  'x8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
-                              height: 10,
-                              width: 10),
-                        ),
+                        // ClipRRect(
+                        //   borderRadius: BorderRadius.circular(100),
+                        //   child: buildCachedNetworkImage(
+                        //       image: 'https://images.unsplash.com/'
+                        //           'photo-1578758803946-2c4f6738df87?ixlib=rb-'
+                        //           '1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfH'
+                        //           'x8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
+                        //       height: 10,
+                        //       width: 10),
+                        // ),
+                        SvgPicture.asset(GlobalAssets.avartar, height: SizeConfig.heightAdjusted(10)),
                         SizedBox(width: 20),
                         Expanded(
                           child: Row(
@@ -167,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           PensionWidget(
                               planName: 'Retirement Plan',
                               image: GlobalAssets.retirement,
-                              onTap: () {})
+                              onTap: () => globalToast('Coming soon'))
                         ],
                       ),
                       SizedBox(height: SizeConfig.heightAdjusted(3)),
@@ -176,12 +177,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           PensionWidget(
                               planName: 'Start A 3 Years Plan',
                               image: GlobalAssets.threeyrs,
-                              onTap: () {}),
+                              onTap: () => globalToast('Coming soon')),
                           SizedBox(width: SizeConfig.heightAdjusted(3)),
                           PensionWidget(
                               planName: 'Start A 10 Years Plan',
                               image: GlobalAssets.tenyrs,
-                              onTap: () {})
+                              onTap: () => globalToast('Coming soon'))
                         ],
                       )
                     ],

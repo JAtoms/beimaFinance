@@ -1,5 +1,8 @@
-
+import 'package:beima/dependency/cubit/dashboard_cubit/dashboard_cubit.dart';
+import 'package:beima/ui_screens/components/check_main_screen/check_mail_screen.dart';
+import 'package:beima/ui_screens/components/state_screen/state_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../database/history_model.dart';
@@ -8,7 +11,6 @@ import '../../../helpers/global_assets.dart';
 import '../../../helpers/helpers.dart';
 import '../../../helpers/size_config.dart';
 import '../../../helpers/text_styles.dart';
-import '../../components/global_back_button.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -19,45 +21,62 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
+  void initState() {
+    context.read<DashBoardCubit>().getHistory();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-    return Stack(
-      children: [
-        Image.asset(GlobalAssets.backdrop),
-        Column(
-          children: [
-            const GlobalBackButton(titleText: 'History', isTitleVisible: true),
-            Flexible(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: HistoryModel.history.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => HistoryWidget(
-                        historyModel: HistoryModel.history[index])),
-              ),
-            )
-          ],
-        )
-      ],
-    );
-
-    // StateScreen(
-    //   stateParameters: StateParameters(
-    //       title: 'No history yet',
-    //       image: GlobalAssets.noHistory,
-    //       subTitle: 'History will  appear here as soon as there is one.',
-    //       btnText: '',
-    //       isBtnVisible: false,
-    //       onTap: () {}));
+    return BlocBuilder<DashBoardCubit, DashBoardState>(
+        builder: (context, state) {
+      return Stack(
+        children: [
+          Image.asset(GlobalAssets.backdrop),
+          state.historyList.isEmpty
+              ? StateScreen(
+                  stateParameters: StateParameters(
+                      title: 'No history yet',
+                      image: GlobalAssets.noHistory,
+                      subTitle:
+                          'History will  appear here as soon as there is one.',
+                      btnText: '',
+                      isBtnVisible: false,
+                      onTap: () {}))
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: SizeConfig.heightAdjusted(5),
+                          top: SizeConfig.heightAdjusted(15)),
+                      child: Text('History',
+                          style: GlobalTextStyles.title(
+                              fontSize: 28, color: Colors.white)),
+                    ),
+                    Flexible(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.historyList.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => HistoryWidget(
+                                history: state.historyList[index])),
+                      ),
+                    )
+                  ],
+                )
+        ],
+      );
+    });
   }
 }
 
 class HistoryWidget extends StatelessWidget {
-  const HistoryWidget({Key? key, required this.historyModel}) : super(key: key);
+  const HistoryWidget({Key? key, required this.history}) : super(key: key);
 
-  final HistoryModel historyModel;
+  final History history;
 
   @override
   Widget build(BuildContext context) {
@@ -92,32 +111,28 @@ class HistoryWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          HistoryType.deposit == historyModel.historyType
+                          HistoryType.deposit.name == history.type
                               ? 'Deposit'
-                              : HistoryType.withdrawal ==
-                                      historyModel.historyType
+                              : HistoryType.withdrawal.name == history.type
                                   ? 'Deposit'
-                                  : HistoryType.interest ==
-                                          historyModel.historyType
+                                  : HistoryType.interest.name == history.type
                                       ? 'Interest'
                                       : '',
                           style: GlobalTextStyles.title(
                               color: Colors.white.withAlpha(180),
                               fontSize: 16)),
-                      Text(historyModel.date,
+                      Text(history.createdAt,
                           style: GlobalTextStyles.regularText(
                               color: Colors.white.withAlpha(180), fontSize: 12))
                     ],
                   ),
-                  Text(formatFigures(historyModel.amount),
+                  Text(formatFigures(history.amount.valueInUsd.toDouble()),
                       style: GlobalTextStyles.regularText(
-                          color: HistoryType.deposit == historyModel.historyType
+                          color: HistoryType.deposit.name == history.type
                               ? Colors.yellow
-                              : HistoryType.withdrawal ==
-                                      historyModel.historyType
+                              : HistoryType.withdrawal.name == history.type
                                   ? Colors.red
-                                  : HistoryType.interest ==
-                                          historyModel.historyType
+                                  : HistoryType.interest.name == history.type
                                       ? Colors.green
                                       : Colors.transparent,
                           fontSize: 12))

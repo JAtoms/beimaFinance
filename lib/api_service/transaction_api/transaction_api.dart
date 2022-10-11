@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:beima/database/history_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 
@@ -27,6 +28,8 @@ abstract class TransactionService {
       required String date});
 
   Future<List<Plans>> getPlans({required token});
+
+  Future<List<History>> getHistory({required token});
 
   Future<double> getConversionRate({required token});
 }
@@ -111,5 +114,17 @@ class TransactionImp extends TransactionService {
       conversionRate = body['data']['rate'].toDouble();
     } else {}
     return conversionRate;
+  }
+
+  @override
+  Future<List<History>> getHistory({required token}) async{
+    List<History> historyList = [];
+    Response response = await serviceHelpersImp.getWithToken(
+        endPointUrl: '/api/v1/transactions/me',
+        token: token);
+    if (response.statusCode == 200) {
+      historyList = historyModelFromJson(response.body).history;
+    } else {}
+    return historyList;
   }
 }

@@ -95,11 +95,11 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          '${formatFiguresSeparator(widget.plans.amountSaved.toDouble())} BIM',
+                                          '${formatFiguresSeparator(widget.plans.bimTokens.toDouble())} BIM',
                                           style: GlobalTextStyles.title(
                                               color: Colors.white,
                                               fontSize: 26)),
-                                      Text(formatFigures(124500),
+                                      Text(formatFigures(widget.plans.bimTokens.toDouble()),
                                           style: GlobalTextStyles.regularText(
                                               color: Colors.white,
                                               fontSize: 14)),
@@ -128,16 +128,22 @@ class _PlanDetailScreenState extends State<PlanDetailScreen> {
                                 style: GlobalTextStyles.medium(
                                     context: context,
                                     color: Colors.white.withAlpha(150),
-                                    fontSize: 18))
+                                    fontSize: 18)),
                           ],
                         ),
                       ),
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: HistoryModel.history.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) => HistoryWidget(
-                              historyModel: HistoryModel.history[index]))
+                      SizedBox(height: SizeConfig.heightAdjusted(20)),
+                      Text('No History',
+                          style: GlobalTextStyles.medium(
+                              context: context,
+                              color: Colors.white.withAlpha(150),
+                              fontSize: 18)),
+                      // ListView.builder(
+                      //     shrinkWrap: true,
+                      //     itemCount: widget.plans.,
+                      //     physics: const NeverScrollableScrollPhysics(),
+                      //     itemBuilder: (context, index) => HistoryWidget(
+                      //         historyModel: HistoryModel.history[index]))
                     ],
                   ),
                 ),

@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:beima/dependency/get_it.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,7 +103,7 @@ void showLoaderDialog(BuildContext context) {
 void globalToast(String message) =>
     Fluttertoast.showToast(msg: message, backgroundColor: Colors.white);
 
-void globalPrint(String topic, message) => debugPrint('$dynamic $message');
+void globaLog(String topic, message) => log('$topic $message');
 
 void globalExceptionPrint(String message) =>
     debugPrint('Finance exception $message');
