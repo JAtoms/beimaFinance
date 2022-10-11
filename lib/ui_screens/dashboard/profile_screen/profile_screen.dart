@@ -47,19 +47,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         '${eventState.profileModel!.data.user.firstName} ${eventState.profileModel!.data.user.lastName}',
                         style: GlobalTextStyles.title(
                             color: Colors.white, fontSize: 20)),
-                    Container(
-                      margin:
-                          EdgeInsets.only(top: SizeConfig.heightAdjusted(5)),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.heightAdjusted(2),
-                          vertical: SizeConfig.heightAdjusted(2)),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: GlobalColors.primary),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Text('Edit Profile',
-                          style: GlobalTextStyles.regularText(
-                              color: Colors.white60)),
-                    )
+                    // Container(
+                    //   margin:
+                    //       EdgeInsets.only(top: SizeConfig.heightAdjusted(5)),
+                    //   padding: EdgeInsets.symmetric(
+                    //       horizontal: SizeConfig.heightAdjusted(2),
+                    //       vertical: SizeConfig.heightAdjusted(2)),
+                    //   decoration: BoxDecoration(
+                    //       border: Border.all(color: GlobalColors.primary),
+                    //       borderRadius: BorderRadius.circular(10)),
+                    //   child: Text('Edit Profile',
+                    //       style: GlobalTextStyles.regularText(
+                    //           color: Colors.white60)),
+                    // )
                   ]),
                 ),
                 ProfileWidget(
@@ -67,17 +67,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     title: 'Bank Details',
                     onTap: () {}),
                 ProfileWidget(
-                    image: GlobalAssets.bank,
+                    image: GlobalAssets.card,
                     title: 'Card Details',
                     onTap: () {}),
                 ProfileWidget(
-                    image: GlobalAssets.bank,
+                    image: GlobalAssets.wallet,
                     title: 'Connect Wallet',
                     onTap: () {}),
                 ProfileWidget(
-                    image: GlobalAssets.bank, title: 'Security', onTap: () {}),
+                    image: GlobalAssets.security, title: 'Security', onTap: () {}),
                 ProfileWidget(
-                    image: GlobalAssets.bank, title: 'Support', onTap: () {}),
+                    image: GlobalAssets.support, title: 'Support', onTap: () {}),
                 SizedBox(height: SizeConfig.heightAdjusted(5)),
               ],
             ),

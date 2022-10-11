@@ -1,4 +1,4 @@
-
+import 'package:beima/database/history_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +12,7 @@ import '../../../helpers/helpers.dart';
 class DashBoardState {
   ProfileModel? profileModel;
   List<Plans> plans;
+  List<History> historyList;
   bool isLoading;
   double conversionRate;
 
@@ -19,6 +20,7 @@ class DashBoardState {
       {required this.profileModel,
       required this.isLoading,
       required this.conversionRate,
+      required this.historyList,
       required this.plans});
 }
 
@@ -35,6 +37,7 @@ class DashBoardCubit extends Cubit<DashBoardState> {
             profileModel: null,
             isLoading: false,
             conversionRate: 0.0,
+            historyList: [],
             plans: []));
 
   void emitState() {
@@ -42,6 +45,7 @@ class DashBoardCubit extends Cubit<DashBoardState> {
         profileModel: state.profileModel,
         isLoading: state.isLoading,
         conversionRate: state.conversionRate,
+        historyList: state.historyList,
         plans: state.plans));
   }
 
@@ -50,6 +54,7 @@ class DashBoardCubit extends Cubit<DashBoardState> {
         profileModel: state.profileModel,
         conversionRate: state.conversionRate,
         isLoading: isLoading,
+        historyList: state.historyList,
         plans: state.plans));
   }
 
@@ -84,8 +89,19 @@ class DashBoardCubit extends Cubit<DashBoardState> {
     var plans = await transactionImp.getPlans(
         token: state.profileModel!.data.authToken);
 
-    state.plans.removeWhere((e) => plans.any((element) => e.id == element.id));
-    state.plans = [...plans, ...state.plans];
+    state.plans = plans;
+
+    setLoading(false);
+  }
+
+  void getHistory() async {
+    setLoading(true);
+    var history = await transactionImp.getHistory(
+        token: state.profileModel!.data.authToken);
+
+    state.historyList
+        .removeWhere((e) => history.any((element) => e.id == element.id));
+    state.historyList = [...history, ...state.historyList];
 
     setLoading(false);
   }

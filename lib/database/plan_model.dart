@@ -27,37 +27,80 @@ class PlanModel {
 }
 
 class Plans {
-  Plans({
-    required this.amountSaved,
-    required this.id,
-    required this.name,
-    required this.dueDate,
-    required this.savingsPerMonth,
-    required this.userId,
-  });
+  Plans(
+      {required this.savingsPerMonth,
+      required this.amountSaved,
+      required this.interestAccrued,
+      required this.bimTokens,
+      required this.id,
+      required this.name,
+      required this.dueDate,
+      required this.user,
+      required this.apr,
+      required this.createdAt,
+      required this.updatedAt});
 
+  final SavingsPerMonth savingsPerMonth;
   final int amountSaved;
+  final int interestAccrued;
+  final int bimTokens;
   final String id;
   final String name;
-  final String dueDate;
-  final int savingsPerMonth;
-  final String userId;
+  final DateTime dueDate;
+  final String user;
+  final int apr;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   factory Plans.fromJson(Map<String, dynamic> json) => Plans(
-        amountSaved: json['amountSaved'],
-        id: json['_id'],
-        name: json['name'],
-        dueDate: json['dueDate'],
-        savingsPerMonth: json['savingsPerMonth'],
-        userId: json['user_id'],
+      savingsPerMonth: SavingsPerMonth.fromJson(json['savingsPerMonth']),
+      amountSaved: json['amountSaved'],
+      interestAccrued: json['interestAccrued'],
+      bimTokens: json['bimTokens'],
+      id: json['_id'],
+      name: json['name'],
+      dueDate: DateTime.parse(json['dueDate']),
+      user: json['user'],
+      apr: json['apr'],
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']));
+
+  Map<String, dynamic> toJson() => {
+        'savingsPerMonth': savingsPerMonth.toJson(),
+        'amountSaved': amountSaved,
+        'interestAccrued': interestAccrued,
+        'bimTokens': bimTokens,
+        '_id': id,
+        'name': name,
+        'dueDate': dueDate.toIso8601String(),
+        'user': user,
+        'apr': apr,
+        'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String()
+      };
+}
+
+class SavingsPerMonth {
+  SavingsPerMonth({
+    required this.valueInUsd,
+    required this.value,
+    required this.currency,
+  });
+
+  final int valueInUsd;
+  final int value;
+  final String currency;
+
+  factory SavingsPerMonth.fromJson(Map<String, dynamic> json) =>
+      SavingsPerMonth(
+        valueInUsd: json['valueInUSD'],
+        value: json['value'],
+        currency: json['currency'],
       );
 
   Map<String, dynamic> toJson() => {
-        'amountSaved': amountSaved,
-        '_id': id,
-        'name': name,
-        'dueDate': dueDate,
-        'savingsPerMonth': savingsPerMonth,
-        'user_id': userId,
+        'valueInUSD': valueInUsd,
+        'value': value,
+        'currency': currency,
       };
 }

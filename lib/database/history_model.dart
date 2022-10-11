@@ -1,27 +1,85 @@
+// To parse this JSON data, do
+//
+//     final historyModel = historyModelFromJson(jsonString);
+
+import 'dart:convert';
+
+import 'package:intl/intl.dart';
+
 enum HistoryType { deposit, interest, withdrawal }
 
+HistoryModel historyModelFromJson(String str) =>
+    HistoryModel.fromJson(json.decode(str));
+
 class HistoryModel {
-  HistoryType historyType;
-  double amount;
-  String date;
+  HistoryModel({
+    required this.history,
+  });
 
-  HistoryModel(
-      {required this.historyType, required this.amount, required this.date});
+  final List<History> history;
 
-  static var history = [
-    HistoryModel(
-        historyType: HistoryType.deposit, amount: 15000, date: '20-09-22:08:30 AM'),
-    HistoryModel(
-        historyType: HistoryType.withdrawal, amount: 1000, date: '20-09-22:08:30 AM'),
-    HistoryModel(
-        historyType: HistoryType.interest, amount: 300, date: '20-09-22:08:30 AM'),
-    HistoryModel(
-        historyType: HistoryType.withdrawal, amount: 500, date: '20-09-22:08:30 AM'),
-    HistoryModel(
-        historyType: HistoryType.interest, amount: 200, date: '20-09-22:08:30 AM'),
-    HistoryModel(
-        historyType: HistoryType.interest, amount: 800, date: '20-09-22:08:30 AM'),
-    HistoryModel(
-        historyType: HistoryType.deposit, amount: 38000, date: '20-09-22:08:30 AM'),
-  ];
+  factory HistoryModel.fromJson(Map<String, dynamic> json) =>
+      HistoryModel(
+        history: List<History>.from(
+            json['data'].map((x) => History.fromJson(x))),
+      );
+}
+
+class History {
+  History({
+    required this.amount,
+    required this.status,
+    required this.id,
+    required this.type,
+    required this.user,
+    required this.plan,
+    required this.createdAt,
+  });
+
+  final Amount amount;
+  final String status;
+  final String id;
+  final String type;
+  final String user;
+  final String plan;
+  final String createdAt;
+
+
+  factory History.fromJson(Map<String, dynamic> json) =>
+      History(
+        amount: Amount.fromJson(json['amount']),
+        status: json['status'],
+        id: json['_id'],
+        type: json['type'],
+        user: json['user'],
+        plan: json['plan'],
+        createdAt: DateFormat('EEE, MMM d, ' 'yy : hh:mm').format(DateTime.tryParse(json['createdAt'])!) ,
+      );
+
+}
+
+class Amount {
+  Amount({
+    required this.valueInUsd,
+    required this.value,
+    required this.currency,
+  });
+
+  final int valueInUsd;
+  final int value;
+  final String currency;
+
+  factory Amount.fromJson(Map<String, dynamic> json) =>
+      Amount(
+        valueInUsd: json['valueInUSD'],
+        value: json['value'],
+        currency: json['currency'],
+      );
+
+  Map<String, dynamic> toJson() =>
+      {
+        'valueInUSD': valueInUsd,
+        'value': value,
+        'currency': currency,
+      };
 }
